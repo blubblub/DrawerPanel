@@ -12,6 +12,8 @@
 		BCFBDD1F1F47117900B1AF48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCFBDD1D1F47117900B1AF48 /* Main.storyboard */; };
 		BCFBDD211F47117900B1AF48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCFBDD201F47117900B1AF48 /* Assets.xcassets */; };
 		BCFBDD241F47117900B1AF48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCFBDD221F47117900B1AF48 /* LaunchScreen.storyboard */; };
+		BCFBDD2C1F4711DB00B1AF48 /* DrawerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBDD2B1F4711DB00B1AF48 /* DrawerAPI.swift */; };
+		BCFBDD2E1F47213A00B1AF48 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBDD2D1F47213A00B1AF48 /* DrawerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		BCFBDD201F47117900B1AF48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCFBDD231F47117900B1AF48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCFBDD251F47117900B1AF48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BCFBDD2B1F4711DB00B1AF48 /* DrawerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerAPI.swift; sourceTree = "<group>"; };
+		BCFBDD2D1F47213A00B1AF48 /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				BCFBDD201F47117900B1AF48 /* Assets.xcassets */,
 				BCFBDD221F47117900B1AF48 /* LaunchScreen.storyboard */,
 				BCFBDD251F47117900B1AF48 /* Info.plist */,
+				BCFBDD2B1F4711DB00B1AF48 /* DrawerAPI.swift */,
+				BCFBDD2D1F47213A00B1AF48 /* DrawerViewController.swift */,
 			);
 			path = drawer;
 			sourceTree = "<group>";
@@ -136,6 +142,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCFBDD1C1F47117900B1AF48 /* ViewController.swift in Sources */,
+				BCFBDD2E1F47213A00B1AF48 /* DrawerViewController.swift in Sources */,
+				BCFBDD2C1F4711DB00B1AF48 /* DrawerAPI.swift in Sources */,
 				BCFBDD1A1F47117900B1AF48 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +283,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 45KWM69QJR;
 				INFOPLIST_FILE = drawer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alenkirm.drawer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -289,6 +298,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 45KWM69QJR;
 				INFOPLIST_FILE = drawer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alenkirm.drawer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
