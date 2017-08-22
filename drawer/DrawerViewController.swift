@@ -18,6 +18,7 @@ class DrawerViewController: UIViewController {
         
         self.view.layer.cornerRadius = 10
         addGestureRecognizer(view: self.view)
+        addTapGestureRecognizer(view: self.view)
         thisVCOrigin = CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height)
         
         // optional, bring tofront
@@ -27,6 +28,32 @@ class DrawerViewController: UIViewController {
     func addGestureRecognizer(view: UIView) {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(DrawerViewController.handlePan(sender:)))
         view.addGestureRecognizer(pan)
+    }
+    
+    func addTapGestureRecognizer(view: UIView) {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(DrawerViewController.handleTap(sender:)))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        let viewControllerView = sender.view!
+        
+        var vcOpened: Bool {
+            return viewControllerView.frame == CGRect(x: 0, y: 40 , width: self.view.frame.size.width, height: self.view.frame.size.height)
+        }
+        
+        if !vcOpened {
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+                viewControllerView.frame = CGRect(x: 0, y: 40 , width: self.view.frame.size.width, height: self.view.frame.size.height)
+            }
+            animator.startAnimation()
+        } else {
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
+                viewControllerView.frame = self.thisVCOrigin
+            }
+            animator.startAnimation()
+        }
+        
     }
     
     @objc func handlePan(sender: UIPanGestureRecognizer) {

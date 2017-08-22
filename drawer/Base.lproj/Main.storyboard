@@ -41,21 +41,11 @@
                                     <constraint firstAttribute="width" constant="40" id="zgX-is-t5K"/>
                                 </constraints>
                             </view>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="cvk-NI-GHl">
-                                <rect key="frame" x="0.0" y="23" width="375" height="56"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="mrs-e3-efL"/>
-                                </constraints>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="BDz-V5-UZu" firstAttribute="centerX" secondItem="z14-O9-W4c" secondAttribute="centerX" id="9Iw-KW-4ae"/>
                             <constraint firstItem="BDz-V5-UZu" firstAttribute="top" secondItem="z14-O9-W4c" secondAttribute="top" constant="8" id="9sM-fT-hq1"/>
-                            <constraint firstItem="cvk-NI-GHl" firstAttribute="leading" secondItem="1WZ-QQ-wKc" secondAttribute="leading" id="Cs3-Hg-o7x"/>
-                            <constraint firstItem="cvk-NI-GHl" firstAttribute="trailing" secondItem="1WZ-QQ-wKc" secondAttribute="trailing" id="Kaf-dA-Ri4"/>
-                            <constraint firstItem="cvk-NI-GHl" firstAttribute="top" secondItem="BDz-V5-UZu" secondAttribute="bottom" constant="10" id="gdh-cc-DvS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1WZ-QQ-wKc"/>
                     </view>

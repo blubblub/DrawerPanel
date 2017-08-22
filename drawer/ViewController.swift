@@ -9,15 +9,15 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    let drawerApi = AddDrawer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let drawableViewController = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") {
-            drawableViewController.view.frame = CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            self.addChildViewController(drawableViewController)
-            self.view.addSubview(drawableViewController.view)
-        }
+        if let drawerVC = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") as? UIViewController {
+            drawerApi.addViewController(drawerVC, toViewController: self)
+        }        
     }
 
 }
