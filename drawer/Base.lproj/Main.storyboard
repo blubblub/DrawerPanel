@@ -29,7 +29,7 @@
         <scene sceneID="chL-wD-WG9">
             <objects>
                 <viewController storyboardIdentifier="DrawViewController" id="aHe-xD-Tn3" customClass="DrawerViewController" customModule="drawer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="z14-O9-W4c">
+                    <view key="view" contentMode="scaleToFill" id="z14-O9-W4c" customClass="DrawerView" customModule="drawer" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

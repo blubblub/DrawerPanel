@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let drawerVC = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") as? UIViewController {
+        if let drawerVC = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") {
             drawerApi.addViewController(drawerVC, toViewController: self)
         }        
     }
