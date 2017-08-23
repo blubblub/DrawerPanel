@@ -86,18 +86,16 @@ class DrawerView: UIView {
     
     @objc private func handlePan(sender: UIPanGestureRecognizer) {
         
-        let panSender = sender
-        
         guard let senderView = sender.view else { return }
         
-        switch panSender.state {
+        switch sender.state {
         case .began, .changed:
             if senderView.frame.origin.y >= 40 {
-                moveViewWithPan(view: senderView, sender: panSender)
+                moveViewWithPan(view: senderView, sender: sender)
             }
             print("view coordinates: \(senderView.frame.origin.y)")
         case .ended:
-            handleViewPosition(withCurrentCoordinates: senderView.frame, view: self, sender: panSender)
+            handleViewPosition(withCurrentCoordinates: senderView.frame, view: self, sender: sender)
         default:
             break
         }
