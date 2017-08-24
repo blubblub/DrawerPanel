@@ -13,7 +13,8 @@ class DrawerView: UIView {
     //
     //// View's initial coordinates and size, which we'll be using for handling view position (reseting ...)
     //
-    var viewOrigin: CGRect!
+//    var viewOrigin: CGRect!
+    var footerView: UIView!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,18 +28,25 @@ class DrawerView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setupView()
+        
+        self.footerView.frame = CGRect(origin: CGPoint(x: 0.0, y: self.frame.size.height), size: CGSize(width: self.frame.size.width, height: 200.0))
     }
     
     private func setupView() {
         self.layer.cornerRadius = 10
         
         // add origin
-        viewOrigin = CGRect(x: 0, y: self.frame.size.height - 80, width: self.frame.size.width, height: self.frame.size.height)
+//        viewOrigin = CGRect(origin: CGPoint(x: 0, y: self.frame.size.height - 80), size: CGSize(width: self.frame.size.width, height: self.frame.size.height))
         
         // add gesture recognizers to this view
         addTapGestureRecognizer(view: self)
         addPanGestureRecognizer(view: self)
+        
+        // add subview
+        self.footerView = UIView()
+        self.footerView.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+        
+        self.addSubview(footerView)
     }
     
     //
@@ -78,7 +86,7 @@ class DrawerView: UIView {
             animator.startAnimation()
         } else {
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
-                senderView.frame = self.viewOrigin
+                senderView.frame = CGRect(x: 0, y: senderView.frame.size.height - 80, width: senderView.frame.size.width, height: senderView.frame.size.height)
             }
             animator.startAnimation()
         }
@@ -114,7 +122,7 @@ class DrawerView: UIView {
         
         if viewPosition >= (thirdOfViewSize * 2)  {
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
-                view.frame = self.viewOrigin
+                view.frame = CGRect(x: 0, y: view.frame.size.height - 80, width: view.frame.size.width, height: view.frame.size.height)
             }
             animator.startAnimation()
         } else if viewPosition > thirdOfViewSize {
