@@ -13,14 +13,25 @@ class DrawerView: UIView {
     //
     //// View's initial coordinates and size, which we'll be using for handling view position (reseting ...)
     //
-//    var viewOrigin: CGRect!
     var footerView: UIView!
-
-    override init(frame: CGRect) {
+    var backColor: UIColor!
+    var topOffset: CGPoint!
+    var middleOffset: CGPoint!
+    var bottomOffset: CGPoint!
+    
+    init(frame: CGRect, backgroundColor: UIColor, topOffset: CGPoint, middleOffset: CGPoint, bottomOffset: CGPoint) {
+        self.topOffset = topOffset
+        self.middleOffset = middleOffset
+        self.bottomOffset = bottomOffset
+        self.backColor = backgroundColor
         super.init(frame: frame)
         setupView()
+        
+        print("topOffset: \(topOffset)")
+        print("middleOffset: \(middleOffset)")
+        print("bottomOffset: \(bottomOffset)")
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupView()
@@ -34,9 +45,7 @@ class DrawerView: UIView {
     
     private func setupView() {
         self.layer.cornerRadius = 10
-        
-        // add origin
-//        viewOrigin = CGRect(origin: CGPoint(x: 0, y: self.frame.size.height - 80), size: CGSize(width: self.frame.size.width, height: self.frame.size.height))
+        self.backgroundColor = backColor
         
         // add gesture recognizers to this view
         addTapGestureRecognizer(view: self)
@@ -44,7 +53,7 @@ class DrawerView: UIView {
         
         // add subview
         self.footerView = UIView()
-        self.footerView.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+        footerView.backgroundColor = backColor
         
         self.addSubview(footerView)
     }

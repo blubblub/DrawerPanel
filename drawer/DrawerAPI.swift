@@ -11,12 +11,14 @@ import UIKit
 
 class AddDrawer {
     
-    func addViewController(_ baseViewController: UIViewController, toViewController parentVC: UIViewController) {
+    func addViewController(_ baseViewController: UIViewController, toViewController parentVC: UIViewController, viewBackgroundColor: UIColor, topOffset: CGPoint, middleOffset: CGPoint, bottomOffset: CGPoint) {
         
-        baseViewController.view.frame = CGRect(x: 0, y: parentVC.view.frame.size.height - 80, width: parentVC.view.frame.size.width, height: parentVC.view.frame.size.height)
+        let drawerView = DrawerView(frame: CGRect(x: 0, y: parentVC.view.frame.size.height - 80, width: parentVC.view.frame.size.width, height: parentVC.view.frame.size.height), backgroundColor: viewBackgroundColor, topOffset: topOffset, middleOffset: middleOffset, bottomOffset: bottomOffset)
+        baseViewController.view = drawerView
         
         parentVC.addChildViewController(baseViewController)
-        parentVC.view.addSubview(baseViewController.view)
+        parentVC.view.addSubview(drawerView)
+        
     }
     
 }
