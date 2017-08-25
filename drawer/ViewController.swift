@@ -9,24 +9,36 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
-    let drawerApi = AddDrawer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let drawerVC = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") {
-            drawerApi.addViewController(drawerVC, toViewController: self, viewBackgroundColor: .lightGray, topOffset: CGPoint(x: 0.0, y: 40.0), middleOffset: CGPoint(x: 0.0, y: (drawerVC.view.frame.size.height) / 2), bottomOffset: CGPoint(x: 0, y: drawerVC.view.frame.size.height - 80.0))
-        }
+        let drawerView = DrawerView(frame: CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height), backgroundColor: .blue)
+        drawerView.topOffset = 100
+        drawerView.middleOffset = 300
+        addDrawer(contentView: drawerView)
+        
+        
+//        addDrawer(to: self, withBackgroundColor: .blue)
     }
 
 }
 
 extension UIViewController {
     
-    func addDrawer(contentView: DrawerView, backgroundColor: UIColor) {
-        contentView.backgroundColor = backgroundColor
-        contentView.footerView.backgroundColor = backgroundColor
+    func addDrawer(to viewController: UIViewController, withBackgroundColor backColor: UIColor) {
+//        let drawerVC = UIViewController()
+//        drawerVC.view.frame = CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.height)
+        
+        let drawerView = DrawerView(frame: CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height), backgroundColor: backColor)
+        drawerView.topOffset = 40
+        drawerView.middleOffset = drawerView.frame.height / 2
+        
+        viewController.view.addSubview(drawerView)
+    }
+    
+    func addDrawer(contentView: UIView) {
+        self.view.addSubview(contentView)
     }
 }
 

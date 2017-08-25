@@ -67,8 +67,8 @@
 				BCFBDD201F47117900B1AF48 /* Assets.xcassets */,
 				BCFBDD221F47117900B1AF48 /* LaunchScreen.storyboard */,
 				BCFBDD251F47117900B1AF48 /* Info.plist */,
-				BCFBDD2B1F4711DB00B1AF48 /* DrawerAPI.swift */,
 				BC7F18B81F4C78EC0036AE1D /* DrawerView.swift */,
+				BCFBDD2B1F4711DB00B1AF48 /* DrawerAPI.swift */,
 			);
 			path = drawer;
 			sourceTree = "<group>";

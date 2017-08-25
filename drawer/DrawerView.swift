@@ -13,16 +13,19 @@ class DrawerView: UIView {
     //
     //// View's initial coordinates and size, which we'll be using for handling view position (reseting ...)
     //
-    var footerView: UIView!
+    private var footerView: UIView!
     var backColor: UIColor!
-    var topOffset: CGPoint!
-    var middleOffset: CGPoint!
-    var bottomOffset: CGPoint!
+    var topOffset: CGFloat = 40
+    var middleOffset: CGFloat = 200
+    var bottomOffset: CGFloat = 80
     
-    init(frame: CGRect, backgroundColor: UIColor, topOffset: CGPoint, middleOffset: CGPoint, bottomOffset: CGPoint) {
-        self.topOffset = topOffset
-        self.middleOffset = middleOffset
-        self.bottomOffset = bottomOffset
+    private var computedMiddleOffset: CGFloat {
+        return self.frame.height - middleOffset - topOffset
+    }
+    
+    var openToTopOnTap: Bool = true
+    
+    init(frame: CGRect, backgroundColor: UIColor) {
         self.backColor = backgroundColor
         super.init(frame: frame)
         setupView()
@@ -40,7 +43,7 @@ class DrawerView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.footerView.frame = CGRect(origin: CGPoint(x: 0.0, y: self.frame.size.height), size: CGSize(width: self.frame.size.width, height: 200.0))
+        self.footerView.frame = CGRect(origin: CGPoint(x: 0.0, y: self.frame.size.height - 10), size: CGSize(width: self.frame.size.width, height: 200.0))
     }
     
     private func setupView() {
@@ -48,7 +51,9 @@ class DrawerView: UIView {
         self.backgroundColor = backColor
         
         // add gesture recognizers to this view
+        
         addTapGestureRecognizer(view: self)
+        
         addPanGestureRecognizer(view: self)
         
         // add subview
@@ -82,23 +87,25 @@ class DrawerView: UIView {
         //
         //// Getting sender .view property, else exit function (nothing to do without uiview.view)
         //
-        guard let senderView = sender.view else { return }
-        
-        var viewExtended: Bool {
-            return senderView.frame == CGRect(x: 0, y: 40 , width: senderView.frame.size.width, height: senderView.frame.size.height)
+        if openToTopOnTap {
+            guard let senderView = sender.view else { return }
+            var viewExtended: Bool {
+                return senderView.frame == CGRect(origin: CGPoint(x: 0, y: topOffset), size: CGSize(width: senderView.frame.size.width, height: senderView.frame.size.height))
+            }
+            
+            if !viewExtended {
+                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+                    senderView.frame = CGRect(origin: CGPoint(x: 0, y: self.topOffset), size: CGSize(width: senderView.frame.size.width, height: senderView.frame.size.height))
+                }
+                animator.startAnimation()
+            } else {
+                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
+                    senderView.frame = CGRect(x: 0, y: senderView.frame.size.height - 80, width: senderView.frame.size.width, height: senderView.frame.size.height)
+                }
+                animator.startAnimation()
+            }
         }
         
-        if !viewExtended {
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
-                senderView.frame = CGRect(x: 0, y: 40 , width: senderView.frame.size.width, height: senderView.frame.size.height)
-            }
-            animator.startAnimation()
-        } else {
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
-                senderView.frame = CGRect(x: 0, y: senderView.frame.size.height - 80, width: senderView.frame.size.width, height: senderView.frame.size.height)
-            }
-            animator.startAnimation()
-        }
     }
     
     @objc private func handlePan(sender: UIPanGestureRecognizer) {
@@ -107,10 +114,10 @@ class DrawerView: UIView {
         
         switch sender.state {
         case .began, .changed:
-            if senderView.frame.origin.y >= 40 {
+            if senderView.frame.origin.y >= topOffset {
                 moveViewWithPan(view: senderView, sender: sender)
             }
-            print("view coordinates: \(senderView.frame.origin.y)")
+        //            print("view coordinates: \(senderView.frame.origin.y)")
         case .ended:
             handleViewPosition(withCurrentCoordinates: senderView.frame, view: self, sender: sender)
         default:
@@ -125,30 +132,33 @@ class DrawerView: UIView {
     }
     
     private func handleViewPosition(withCurrentCoordinates position: CGRect, view: UIView, sender: UIPanGestureRecognizer) {
-        let thirdOfViewSize = (view.frame.size.height / 3)
+        let viewHeight = view.frame.height
         
         let viewPosition = view.frame.origin.y
         
-        if viewPosition >= (thirdOfViewSize * 2)  {
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
-                view.frame = CGRect(x: 0, y: view.frame.size.height - 80, width: view.frame.size.width, height: view.frame.size.height)
+        print("middle offset: \(computedMiddleOffset)")
+        
+        print("bottom offset: \(viewHeight - bottomOffset)")
+        
+        if viewPosition >= viewHeight - bottomOffset {
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
+                view.frame = CGRect(x: 0, y: view.frame.size.height - self.bottomOffset, width: view.frame.size.width, height: view.frame.size.height)
             }
             animator.startAnimation()
-        } else if viewPosition > thirdOfViewSize {
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
-                view.frame.origin.y = thirdOfViewSize
+        } else if viewPosition > computedMiddleOffset {
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+                view.frame = CGRect(origin: CGPoint(x: 0, y: self.computedMiddleOffset), size: CGSize(width: view.frame.size.width, height: view.frame.size.height))
             }
             animator.startAnimation()
-        } else if viewPosition < thirdOfViewSize {
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
-                view.frame = CGRect(x: 0, y: 40 , width: view.frame.size.width, height: view.frame.size.height)
+        } else {
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+                view.frame = CGRect(origin: CGPoint(x: 0, y: self.topOffset), size: CGSize(width: view.frame.size.width, height: view.frame.size.height))
             }
             animator.startAnimation()
         }
         
         print(position.size.height, position.size.width)
         print("view position: \(viewPosition)")
-        print("third of vc size: \(thirdOfViewSize)")
     }
-
+    
 }
