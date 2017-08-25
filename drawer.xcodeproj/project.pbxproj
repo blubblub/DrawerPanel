@@ -62,12 +62,12 @@
 			children = (
 				BCFBDD191F47117900B1AF48 /* AppDelegate.swift */,
 				BCFBDD1B1F47117900B1AF48 /* ViewController.swift */,
+				BC7F18B81F4C78EC0036AE1D /* DrawerView.swift */,
 				BCFBDD2D1F47213A00B1AF48 /* DrawerViewController.swift */,
 				BCFBDD1D1F47117900B1AF48 /* Main.storyboard */,
 				BCFBDD201F47117900B1AF48 /* Assets.xcassets */,
 				BCFBDD221F47117900B1AF48 /* LaunchScreen.storyboard */,
 				BCFBDD251F47117900B1AF48 /* Info.plist */,
-				BC7F18B81F4C78EC0036AE1D /* DrawerView.swift */,
 				BCFBDD2B1F4711DB00B1AF48 /* DrawerAPI.swift */,
 			);
 			path = drawer;

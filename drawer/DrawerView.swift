@@ -14,25 +14,35 @@ class DrawerView: UIView {
     //// View's initial coordinates and size, which we'll be using for handling view position (reseting ...)
     //
     private var footerView: UIView!
-    var backColor: UIColor!
     var topOffset: CGFloat = 40
     var middleOffset: CGFloat = 200
     var bottomOffset: CGFloat = 80
+    var openToTopOnTap: Bool = true
+    var backColor: UIColor = .lightGray
+    
+    var innerView : UIView? {
+        didSet {
+            guard let innerView = innerView else {
+                return
+            }
+            
+            if innerView.superview !== self {
+                innerView.backgroundColor = backColor
+                footerView.backgroundColor = backColor
+                innerView.layer.cornerRadius = 10
+                addSubview(innerView)
+                setNeedsLayout()
+            }
+        }
+    }
     
     private var computedMiddleOffset: CGFloat {
         return self.frame.height - middleOffset - topOffset
     }
     
-    var openToTopOnTap: Bool = true
-    
-    init(frame: CGRect, backgroundColor: UIColor) {
-        self.backColor = backgroundColor
+    override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        
-        print("topOffset: \(topOffset)")
-        print("middleOffset: \(middleOffset)")
-        print("bottomOffset: \(bottomOffset)")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,22 +53,23 @@ class DrawerView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        if let innerView = innerView {
+            innerView.frame = self.bounds
+        }
+        
         self.footerView.frame = CGRect(origin: CGPoint(x: 0.0, y: self.frame.size.height - 10), size: CGSize(width: self.frame.size.width, height: 200.0))
     }
     
     private func setupView() {
-        self.layer.cornerRadius = 10
-        self.backgroundColor = backColor
         
         // add gesture recognizers to this view
-        
         addTapGestureRecognizer(view: self)
-        
         addPanGestureRecognizer(view: self)
         
         // add subview
         self.footerView = UIView()
-        footerView.backgroundColor = backColor
+        
+        footerView.backgroundColor = innerView?.backgroundColor
         
         self.addSubview(footerView)
     }
@@ -117,7 +128,6 @@ class DrawerView: UIView {
             if senderView.frame.origin.y >= topOffset {
                 moveViewWithPan(view: senderView, sender: sender)
             }
-        //            print("view coordinates: \(senderView.frame.origin.y)")
         case .ended:
             handleViewPosition(withCurrentCoordinates: senderView.frame, view: self, sender: sender)
         default:
@@ -132,13 +142,9 @@ class DrawerView: UIView {
     }
     
     private func handleViewPosition(withCurrentCoordinates position: CGRect, view: UIView, sender: UIPanGestureRecognizer) {
+        
         let viewHeight = view.frame.height
-        
         let viewPosition = view.frame.origin.y
-        
-        print("middle offset: \(computedMiddleOffset)")
-        
-        print("bottom offset: \(viewHeight - bottomOffset)")
         
         if viewPosition >= viewHeight - bottomOffset {
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
@@ -156,9 +162,6 @@ class DrawerView: UIView {
             }
             animator.startAnimation()
         }
-        
-        print(position.size.height, position.size.width)
-        print("view position: \(viewPosition)")
     }
     
 }

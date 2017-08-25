@@ -19,24 +19,27 @@ class ViewController: UIViewController {
 //        addDrawer(contentView: drawerView)
         
         
-        addDrawer(to: self, withBackgroundColor: .blue)
+        guard let drawerVC = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") else { return }
+        
+        let drawer = self.addDrawer(viewController: drawerVC)
     }
 
 }
 
 extension UIViewController {
     
-    func addDrawer(to viewController: UIViewController, withBackgroundColor backColor: UIColor) {
+    func addDrawer(viewController: UIViewController) -> DrawerView {
         
-        guard let drawerVC = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") else { return }
-        
-        let drawerView = DrawerView(frame: CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height), backgroundColor: backColor)
+        let drawerView = DrawerView(frame: CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height))
+        drawerView.backColor = UIColor.yellow
         drawerView.topOffset = 40
         drawerView.middleOffset = drawerView.frame.height / 2
+        drawerView.innerView = viewController.view
         
-        drawerVC.view = drawerView
-        viewController.addChildViewController(drawerVC)
-        viewController.view.addSubview(drawerView)
+        self.addChildViewController(viewController)
+        self.view.addSubview(drawerView)
+        
+        return drawerView
     }
     
     func addDrawer(contentView: UIView) {
