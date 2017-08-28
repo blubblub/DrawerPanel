@@ -9,20 +9,32 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    private var drawer : DrawerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let drawerView = DrawerView(frame: CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height), backgroundColor: .blue)
-//        drawerView.topOffset = 100
-//        drawerView.middleOffset = 300
-//        addDrawer(contentView: drawerView)
-        
-        
         guard let drawerVC = storyboard?.instantiateViewController(withIdentifier: "DrawViewController") else { return }
-        
+
         let drawer = self.addDrawer(viewController: drawerVC)
+        drawer.topOffset = 150
+        drawer.innerView?.backgroundColor = UIColor.green
+        
+        
+//        let view = UIView()
+//        view.frame = CGRect(origin: self.view.center, size: CGSize(width: 250, height: 300))
+//        view.backgroundColor = .blue
+//
+//        drawer = addDrawer(contentView: view)
+        
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//
+//        drawer.frame = CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height)
+//    }
 
 }
 
@@ -31,9 +43,6 @@ extension UIViewController {
     func addDrawer(viewController: UIViewController) -> DrawerView {
         
         let drawerView = DrawerView(frame: CGRect(x: 0, y: self.view.frame.size.height - 80, width: self.view.frame.size.width, height: self.view.frame.size.height))
-        drawerView.backColor = UIColor.yellow
-        drawerView.topOffset = 40
-        drawerView.middleOffset = drawerView.frame.height / 2
         drawerView.innerView = viewController.view
         
         self.addChildViewController(viewController)
@@ -42,8 +51,15 @@ extension UIViewController {
         return drawerView
     }
     
-    func addDrawer(contentView: UIView) {
-        self.view.addSubview(contentView)
+    func addDrawer(contentView: UIView) -> DrawerView {
+        let drawer = DrawerView(frame: contentView.frame)
+        drawer.innerView?.backgroundColor = UIColor.red
+        drawer.innerView = contentView
+        
+        self.view.addSubview(drawer)
+        
+        return drawer
     }
 }
+
 

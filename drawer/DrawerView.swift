@@ -13,12 +13,10 @@ class DrawerView: UIView {
     //
     //// View's initial coordinates and size, which we'll be using for handling view position (reseting ...)
     //
-    private var footerView: UIView!
-    var topOffset: CGFloat = 40
-    var middleOffset: CGFloat = 200
+//    private(set) var footerView: UIView!
+    var topOffset: CGFloat = 80
     var bottomOffset: CGFloat = 80
     var openToTopOnTap: Bool = true
-    var backColor: UIColor = .lightGray
     
     var innerView : UIView? {
         didSet {
@@ -27,17 +25,10 @@ class DrawerView: UIView {
             }
             
             if innerView.superview !== self {
-                innerView.backgroundColor = backColor
-                footerView.backgroundColor = backColor
-                innerView.layer.cornerRadius = 10
                 addSubview(innerView)
                 setNeedsLayout()
             }
         }
-    }
-    
-    private var computedMiddleOffset: CGFloat {
-        return self.frame.height - middleOffset - topOffset
     }
     
     override init(frame: CGRect) {
@@ -57,7 +48,7 @@ class DrawerView: UIView {
             innerView.frame = self.bounds
         }
         
-        self.footerView.frame = CGRect(origin: CGPoint(x: 0.0, y: self.frame.size.height - 10), size: CGSize(width: self.frame.size.width, height: 200.0))
+//        self.footerView.frame = CGRect(origin: CGPoint(x: 0.0, y: self.frame.size.height), size: CGSize(width: self.frame.size.width, height: 200.0))
     }
     
     private func setupView() {
@@ -67,11 +58,8 @@ class DrawerView: UIView {
         addPanGestureRecognizer(view: self)
         
         // add subview
-        self.footerView = UIView()
-        
-        footerView.backgroundColor = innerView?.backgroundColor
-        
-        self.addSubview(footerView)
+//        self.footerView = UIView()
+//        self.addSubview(footerView)
     }
     
     //
@@ -116,10 +104,11 @@ class DrawerView: UIView {
                 animator.startAnimation()
             }
         }
-        
     }
     
     @objc private func handlePan(sender: UIPanGestureRecognizer) {
+    
+        let velocity = sender.velocity(in: self).y
         
         guard let senderView = sender.view else { return }
         
@@ -129,7 +118,19 @@ class DrawerView: UIView {
                 moveViewWithPan(view: senderView, sender: sender)
             }
         case .ended:
-            handleViewPosition(withCurrentCoordinates: senderView.frame, view: self, sender: sender)
+            if velocity <= 1 {
+                let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeOut) {
+                    senderView.frame = CGRect(origin: CGPoint(x: 0, y: self.topOffset), size: CGSize(width: senderView.frame.size.width, height: senderView.frame.size.height))
+                }
+                animator.startAnimation()
+            } else if velocity >= -1 {
+                let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeIn) {
+                    senderView.frame = CGRect(x: 0, y: senderView.frame.size.height - self.bottomOffset, width: senderView.frame.size.width, height: senderView.frame.size.height)
+                }
+                animator.startAnimation()
+            } else {
+                handleViewPosition(withCurrentCoordinates: senderView.frame, view: self, sender: sender)
+            }
         default:
             break
         }
@@ -146,14 +147,11 @@ class DrawerView: UIView {
         let viewHeight = view.frame.height
         let viewPosition = view.frame.origin.y
         
-        if viewPosition >= viewHeight - bottomOffset {
+        let half = (viewHeight + topOffset) / 2
+        
+        if viewPosition >= half {
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn) {
                 view.frame = CGRect(x: 0, y: view.frame.size.height - self.bottomOffset, width: view.frame.size.width, height: view.frame.size.height)
-            }
-            animator.startAnimation()
-        } else if viewPosition > computedMiddleOffset {
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
-                view.frame = CGRect(origin: CGPoint(x: 0, y: self.computedMiddleOffset), size: CGSize(width: view.frame.size.width, height: view.frame.size.height))
             }
             animator.startAnimation()
         } else {
@@ -163,5 +161,4 @@ class DrawerView: UIView {
             animator.startAnimation()
         }
     }
-    
 }
